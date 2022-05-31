@@ -1,4 +1,6 @@
-// ** Vector v0.3
+
+// ** vector v0.3
+
 #include <iostream>
 
 using namespace std;
@@ -19,8 +21,6 @@ int main(void)
 	cout << (*str1)[1];
 
 	cout << endl;
-
-	printf_s("%s\n, str2[0]");
 
 
 	// 직접 접근으로 하나의 알파벳을 추가해볼것
