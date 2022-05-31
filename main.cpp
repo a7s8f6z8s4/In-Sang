@@ -93,3 +93,5 @@ int main(void)
 설치 방법 : visual studio installer->개별 구성 요소->visual studio 용 github
 
 */
+
+// git 사용법: pull 작업 push
