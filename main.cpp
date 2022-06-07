@@ -1,205 +1,118 @@
-
-// ** vector v0.8
+// ** Vector v0.8a
 #include <iostream>
 
 using namespace std;
 
-// ** 원소의 갯수
+// ** 원소의 개수
 int Size = 0;
 
-// ** 최대 수용 갯수
+// ** 최대 수용 개수
 int Capacity = 0;
 
 // ** 컨테이너
 int* Vector = nullptr;
 
-// ** C언어는 절차지향 언어이므로 미리 선언해두지 않으면 아래 함수를 읽을 수 없다.
-void push_back(const int _value);
+
+
+
+
+// ** 컨테이너의 마지막 위치의 값을 추가.
+void push_back(const int& _Value);
+
+// ** 컨테이너의 마지막 위치의 값을 삭제.
+void pop_back();
+
+int front();
+
+int back();
+
+void erase(const int _where);
+
 
 int main(void)
-{	
-	push_back(100);
-	push_back(200);
+{
+	// ** 누적 횟수만큼 비효율
+	for (int i = 0; i < 10; ++i)
+		push_back(i * 100 + 100);
+
+	pop_back();
 
 	for (int i = 0; i < Size; ++i)
-		cout << Vector[i] << endl;
+	{
+		cout << "Value: " << Vector[i] << endl;
+	}
+
+	erase(3);
+
+	for (int i = 0; i < Size; ++i)
+	{
+		cout << "Value: " << Vector[i] << endl;
+	}
+
+	cout << endl << front() << endl;
+	cout << back() << endl;
 
 	return 0;
 }
 
-void push_back(const int _value)
+void push_back(const int& _Value)
 {
-	Capacity += (Capacity <= 3) ? 1 : Capacity >> 1;
-	// Size와 Capacity가 같은 상태로
-	// 수용량이 늘어난 이후에서야 소용이 있다
-	// 
-
-	int* Temp = new int[Size];
-
-	for (int i = 0; i < Size; i++)
-		Temp[i] = Vector[i];
-
-	if (Vector)
+	if (Capacity <= Size)
 	{
-		delete Vector;
-		Vector = nullptr;
+		Capacity += (Capacity <= 3) ? 1 : Capacity >> 1;
+
+		int* Temp = new int[Capacity];
+
+		for (int i = 0; i < Size; ++i)
+			Temp[i] = Vector[i];
+
+		if (Vector)
+		{
+			delete Vector;
+			Vector = nullptr;
+		}
+
+		Temp[Size] = _Value;
+		Vector = Temp;
 	}
-	Temp[Size = 1] = _value;
+	else
+	{
+		Vector[Size] = _Value;
+	}
+
 	++Size;
 
-	Vector = Temp;
+	cout << "Value: " << _Value << endl;
+	cout << "Size : " << Size << endl;
+	cout << "Capacity : " << Capacity << endl << endl;
 
-	cout << "Size: " << Size << endl;
-	cout << "Capacity " << Capacity << endl;
 }
 
-// 벡터의 구조는 배열과 동일하다.
-
-// 배열의 장점
-/*
-	1. 직접 접근이 가능하다. (이게 되는 자료구조가 별로 없다) ★★★★★
-	2. 동일한 크기로 나열이 되므로 접근 속도가 항상 일정하다. 
-*/
-
-// 배열의 단점(치명적임)
-/*
-	1. 배열의 동적 선언이 되지 않는다. (길이를 한 번 정하면 바꿀 수 없다.)
-	2. 특정 데이터의 정확한 위치는 알 수 없다.
-*/
-
-// 벡터를 사용할 때 주의할 점
-/*
-	
-*/
-
-// 이동과 복제의 차이
-/*
-	복제: 데이터를 복제만 한다.
-	이동: 데이터를 복제하고 기존 데이터를 삭제한다.
-
-	복사를 많이 할 수록 느려지기 마련이므로
-	길이를 늘이고 줄일 수 있는 방법이 있다 해도 복사를 많이 해야 될 가능성이 있기 때문에
-	좋지는 않다.
-*/
-
-// 배열'만' 사용할 때
-/*
-	일단 여분을 많이 만들어두고, 필요한 만큼만 가져다쓴다.
-	부하가 있을지는 모르지만, 데이터를 늘려야 할 때 유용하다. (벡터가 나오기 전 이야기)
-*/
-
-// 2차 배열이라 하더라도 '1열로 나열되어 있다'
-
-//=====================================================
-
-
-
-// 컴퓨터가 받아들이기 가장 좋은 수는 2^n 이므로 16진수에 맞춰서 쓰도록 한다.
-/*
-ex) literal 상수로 만들때는 10이라는 숫자는 문제가 되지 않는다
-하지만 배열은 한 번 만들 때 2^n 개씩 만들어지기 때문에 이 편이 훨씬 효율적이다
-	
-2의 보수:
-0 0000000(1byte)
-0 0000000 00000000(2byte)
-
-0 0000000(0)
-0 0000001(1)
-0 0000010(2)
-0 0000011(3)
-0 0000100(4)
-0 0000101(5)
-0 0000110(6)
-0 0000111(7)
-0 0001000(8)
-0 0001001(9)
-0 0001010(10)
-0 0001011(11)
-0 0001100(12)
-0 0001101(13)
-0 0001110(14)
-0 0001111(15)
-0 0010000(16)
-.
-.
-.
-0 1111111(127)
-1 0000000(-0)
-
-16 - 6 = 10을 어떻게 컴퓨터로 연산할 것인가
-
-0 0010000	+16
-1 1111010	-6		-> 0 0 0 0 0 1 1 0 = 6
-					   1 1 1 1 1 1 1 1
-					   1 1 1 1 1 0 0 1 + 1
-					   1 1 1 1 1 0 1 0 -> -6
-
-0 0 1 0 0 0 0 0
-1 1 1 1 1 0 1 0
------------
-0 0 0 0 1 0 1 0	+10
-
-
-컴퓨터는 더하는 기능만 있지 빼는 기능은 없다.
-*/
-
-/*
- 
-// ** 양수 최대 값은 얼마나 나올까?
-char n = 127;
-n += 1;
-printf_s("%d", n);
-*/
-
-/*
-* // ** +연산과 -연산 중 어느 것이 더 효율적인가?
-char n = 16;
-n += -6;
-//n -= 6;
-printf_s("%d", n);
-*/
-
-/*
-// ** 나누기를 해야 할 때는 * 연산자로 대체할 수 있을지 확인해보자.
-int n = 1920 / 2;
-// int n = 1920 * 0.5f;
-
-printf_s("%d", n);
-
-// ** 아래와 같이 쉬프트 연산자로 사용할 수 있을 지 확인해보자.
-//printf_s("%d", n >> 1);
-*/
-
-/*
-int main(void)
+void pop_back()
 {
-	// ** 배열은 0이 아닌 값으로만 초기화가 가능하다.
-	// ** 배열은 상수 값으로만 초기화가 가능하다.
-	int vector[16];
-
-	int vector[iLength];
-	int iLength = 10;
-
-	for (int i = 0; i < iLength; i ++ )
-	{
-		cout << vector[i] << endl;
-	}
-
-int Size = 10;
-int iter = 0;
-int* Vector = new int[Size];
-
-for (int i = 0; i < Size; ++i)
-	Vector[i] = i;
-
-
-for (int i = 0; i < Size; ++i)
-	cout << Vector[i] << endl;
-
-
-for (int i = 0; i < Size + 1; ++i)
-	cout << Vector[Size] << endl;
-
-return 0;
+	--Size;
 }
-*/
+
+int front()
+{
+	return Vector[0];
+}
+
+int back()
+{
+	return Vector[Size - 1];
+}
+
+void erase(const int _where)
+{
+	// ** 특정 위치에 있는 원소를 삭제하고 정렬
+
+	--Size;
+	
+	for (int i = _where + (-1); i < Size -1; i++)
+	{
+		Vector[i] = Vector[i + 1];
+	}
+}
+
+// ** insert 함수 만들어서 특정 위치에 데이터를 삽입할 수 있는 함수를 만들 것
