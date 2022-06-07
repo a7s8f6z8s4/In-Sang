@@ -1,4 +1,4 @@
-// ** Vector v0.8a
+// ** Vector v0.8b
 #include <iostream>
 
 using namespace std;
@@ -27,6 +27,8 @@ int front();
 int back();
 
 void erase(const int _where);
+
+int Insert(int _where);
 
 
 int main(void)
@@ -113,6 +115,20 @@ void erase(const int _where)
 	{
 		Vector[i] = Vector[i + 1];
 	}
+}
+
+int Insert(const int _where, int y)
+{
+	++Size;
+
+	for (int i = _where + (-1); i < Size - 1; i++)
+	{
+		Vector[i + 1] = Vector[i];
+	}
+
+	Vector[_where] = y;
+
+	return y;
 }
 
 // ** insert 함수 만들어서 특정 위치에 데이터를 삽입할 수 있는 함수를 만들 것
