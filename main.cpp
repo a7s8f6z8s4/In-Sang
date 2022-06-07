@@ -1,5 +1,5 @@
 
-// ** vector v0.7
+// ** vector v0.8
 #include <iostream>
 
 using namespace std;
