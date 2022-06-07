@@ -1,44 +1,56 @@
 
-// ** vector v0.5
+// ** vector v0.7
 #include <iostream>
 
 using namespace std;
 
+// ** 원소의 갯수
+int Size = 0;
+
+// ** 최대 수용 갯수
+int Capacity = 0;
+
+// ** 컨테이너
+int* Vector = nullptr;
+
+// ** C언어는 절차지향 언어이므로 미리 선언해두지 않으면 아래 함수를 읽을 수 없다.
+void push_back(const int _value);
+
 int main(void)
 {	
-	/*
-	// ** 배열은 0이 아닌 값으로만 초기화가 가능하다.
-	// ** 배열은 상수 값으로만 초기화가 가능하다.
-	int vector[16];
-	
-	int vector[iLength];
-	int iLength = 10;
+	push_back(100);
+	push_back(200);
 
-	for (int i = 0; i < iLength; i ++ )
-	{
-		cout << vector[i] << endl;
-	}
-	*/
-
-	// ** 아래와 같이 사용한다면 위 조건은 무시할 수 있다.
-	// ** 배열은 아니지만, 배열처럼 사용하기 때문이다.
-
-	int Size = 10;
-	int iter = 0;
-	int* Vector = new int[Size];
-
-	for (int i = 0; i < Size; ++i)
-		Vector[i] = i;
-
-	/*
 	for (int i = 0; i < Size; ++i)
 		cout << Vector[i] << endl;
-	*/
-
-	for (int i = 0; i < Size+1; ++i)
-		cout << Vector[Size] << endl;
 
 	return 0;
+}
+
+void push_back(const int _value)
+{
+	Capacity += (Capacity <= 3) ? 1 : Capacity >> 1;
+	// Size와 Capacity가 같은 상태로
+	// 수용량이 늘어난 이후에서야 소용이 있다
+	// 
+
+	int* Temp = new int[Size];
+
+	for (int i = 0; i < Size; i++)
+		Temp[i] = Vector[i];
+
+	if (Vector)
+	{
+		delete Vector;
+		Vector = nullptr;
+	}
+	Temp[Size = 1] = _value;
+	++Size;
+
+	Vector = Temp;
+
+	cout << "Size: " << Size << endl;
+	cout << "Capacity " << Capacity << endl;
 }
 
 // 벡터의 구조는 배열과 동일하다.
@@ -156,4 +168,38 @@ printf_s("%d", n);
 
 // ** 아래와 같이 쉬프트 연산자로 사용할 수 있을 지 확인해보자.
 //printf_s("%d", n >> 1);
+*/
+
+/*
+int main(void)
+{
+	// ** 배열은 0이 아닌 값으로만 초기화가 가능하다.
+	// ** 배열은 상수 값으로만 초기화가 가능하다.
+	int vector[16];
+
+	int vector[iLength];
+	int iLength = 10;
+
+	for (int i = 0; i < iLength; i ++ )
+	{
+		cout << vector[i] << endl;
+	}
+
+int Size = 10;
+int iter = 0;
+int* Vector = new int[Size];
+
+for (int i = 0; i < Size; ++i)
+	Vector[i] = i;
+
+
+for (int i = 0; i < Size; ++i)
+	cout << Vector[i] << endl;
+
+
+for (int i = 0; i < Size + 1; ++i)
+	cout << Vector[Size] << endl;
+
+return 0;
+}
 */
