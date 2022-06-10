@@ -7,17 +7,54 @@ using namespace std;
 
 int main(void)
 {
+	int MAX = 50;
+
 	vector<int> vecNumbers;
 //	데이터 타입	데이터 이름	(지역변수)
 
+	// ** 가장 앞에 있는 (원소를 반환)
+	vecNumbers.front();
+
+	// ** 가장 뒤에 있는 (원소를 반환)
+	vecNumbers.back();
+
+	// ** 시작점 (반복자)
+	vecNumbers.begin();
+
+	// ** 끝점 (반복자)
+	vecNumbers.end();
+
+	// ** 입력
 	for (int i = 0; i < 10; i++)
 		vecNumbers.push_back(10 * i);
-
-	for (vector<int>::iterator iter = vecNumbers.begin(); iter != vecNumbers.end(); ++iter)
+	
+	for (int i = 0; i < 10; ++i)
 	{
-		cout << (*iter) << endl;
+		vecNumbers.push_back(10);
 	}
 
+	/*
+	for (int i = 0; i < vecNumbers.size(); ++i)
+		cout << vecNumbers[i] << endl;
+
+	for (vector<int>::iterator iter = vecNumbers.begin(); iter != vecNumbers.end(); ++iter)
+		cout << (*iter) << endl;
+	*/
+
+	/*
+	for (auto iter = vecNumbers.begin(); iter != vecNumbers.end();)
+	{
+		if ((*iter) > MAX)
+		{
+			iter = vecNumbers.erase(iter);
+		}
+		else
+			++iter;
+	}
+
+	for (auto iter = vecNumbers.begin(); iter != vecNumbers.end(); ++iter)
+		cout << (*iter) << endl;
+	*/
 
 	// 반환하려고 하는 데이터 타입과 내가 사용하려는 데이터 타입이 같아야 사용이 가능하다.
 	// 데이터의 변형이 생길 수 있다.
